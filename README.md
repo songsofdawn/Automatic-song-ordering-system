@@ -1,24 +1,18 @@
-# Getting Started
+# 代码运行说明
 
-### Reference Documentation
-For further reference, please consider the following sections:
+### 功能
+可以实现：
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.3/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.3/maven-plugin/build-image.html)
-* [Spring Web](https://docs.spring.io/spring-boot/3.5.3/reference/web/servlet.html)
+* 在局域网内点歌
+* 任一用户点歌按时间顺序产生列表，按照列表逐一放歌
 
 ### Guides
-The following guides illustrate how to use some features concretely:
+script目录下放置了运行所必须的bat脚本、chrome浏览器驱动和python脚本
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+* auto_music.py下有三个路径需要自定义：
+* * chrome_path：你的chrome浏览器exe文件路径
+* * driver_path：你的chrome驱动器路径
+* * user_data_di：你的chrome个人信息路径，用以保存登录信息
 
-### Maven Parent overrides
-
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
-
+* bat脚本中路径为auto_music.py的路径
+* 请务必修改java代码中bat脚本的路径
