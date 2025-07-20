@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>🎵 点歌系统</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 40px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #444;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #playlist, #nowPlaying {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎵 在线点歌系统</h1>
+
+<input id="song" type="text" placeholder="请输入歌曲名">
+<button onclick="queueSong()">点歌</button>
+
+<div id="nowPlaying">
+    <h3>当前播放：</h3>
+    <p id="currentSong">加载中...</p>
+</div>
+
+<div id="playlist">
+    <h3>播放队列：</h3>
+    <ul id="playlistList"></ul>
+</div>
+
+<script>
+    function queueSong() {
+        const song = document.getElementById('song').value.trim();
+        if (!song) return;
+
+        fetch('/api/queue', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({song})
+        }).then(() => {
+            document.getElementById('song').value = '';
+            loadPlaylist();
+        });
+    }
+
+    function loadPlaylist() {
+        fetch('/api/playlist')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('currentSong').textContent = data.nowPlaying || '无';
+                const list = document.getElementById('playlistList');
+                list.innerHTML = '';
+                data.playlist.forEach(song => {
+                    const li = document.createElement('li');
+                    li.textContent = song;
+                    list.appendChild(li);
+                });
+            })
+            .catch(err => {
+                console.error('❌ 获取播放列表失败', err);
+            });
+    }
+
+    setInterval(loadPlaylist, 3000);
+    loadPlaylist();
+</script>
+
+</body>
+</html>
+
